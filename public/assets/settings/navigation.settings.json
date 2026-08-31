@@ -1,0 +1,6 @@
+{
+  "navClass": "navbar bg-dark navbar-dark py-3",
+  "containerClass": "container px-3 px-sm-4 px-md-5 px-lg-5",
+  "brandClass": "navbar-brand",
+  "linkClass": "nav-link text-light"
+}
