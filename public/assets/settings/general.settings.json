@@ -1,3 +1,4 @@
 {
-  "layoutClass": "bg-light text-dark font-monospace min-vh-100"
+  "layoutClass": "bg-light text-dark min-vh-100",
+  "fontSizeClass": "fs-5"
 }

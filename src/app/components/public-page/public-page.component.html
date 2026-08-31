@@ -1,0 +1,22 @@
+@if (SiteSettingsService.Settings(); as _Settings) {
+  <div id="application-page-shell" [class]="_Settings.general.layoutClass + ' ' + _Settings.general.fontSizeClass">
+    @if (_Settings.admin.showNavigation) {
+      <app-navigation id="application-navigation" [Settings]="_Settings.navigation"></app-navigation>
+    }
+    <main id="application-main-content">
+      @if (_Settings.admin.showAbout) {
+        <app-about id="application-about" [Settings]="_Settings.about"></app-about>
+      }
+      @if (_Settings.admin.showPricing) {
+        <app-pricing id="application-pricing" [Settings]="_Settings.pricing"></app-pricing>
+      }
+      @if (_Settings.admin.showContact) {
+        <app-contact id="application-contact" [Settings]="_Settings.contact"></app-contact>
+      }
+    </main>
+  </div>
+} @else {
+  <div id="application-settings-loading" class="min-vh-100 d-flex align-items-center justify-content-center">
+    <div id="application-settings-loading-indicator" class="spinner-border" role="status"></div>
+  </div>
+}

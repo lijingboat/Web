@@ -1,14 +1,1 @@
-@if (SiteSettingsService.Settings(); as _Settings) {
-  <div id="application-page-shell" [class]="_Settings.general.layoutClass">
-    <app-navigation id="application-navigation" [Settings]="_Settings.navigation"></app-navigation>
-    <main id="application-main-content">
-      <app-about id="application-about" [Settings]="_Settings.about"></app-about>
-      <app-pricing id="application-pricing" [Settings]="_Settings.pricing"></app-pricing>
-      <app-contact id="application-contact" [Settings]="_Settings.contact"></app-contact>
-    </main>
-  </div>
-} @else {
-  <div id="application-settings-loading" class="min-vh-100 d-flex align-items-center justify-content-center">
-    <div id="application-settings-loading-indicator" class="spinner-border" role="status"></div>
-  </div>
-}
+<router-outlet id="application-router-outlet"></router-outlet>

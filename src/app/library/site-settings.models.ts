@@ -1,5 +1,22 @@
 export interface GeneralSettings {
   readonly layoutClass: string;
+  readonly fontSizeClass: string;
+}
+
+export interface EditableSettingItem {
+  readonly id: string;
+  readonly label: string;
+  readonly enabled: boolean;
+}
+
+export interface AdminSettings {
+  readonly displayName: string;
+  readonly role: string;
+  readonly showNavigation: boolean;
+  readonly showAbout: boolean;
+  readonly showPricing: boolean;
+  readonly showContact: boolean;
+  readonly pageLoadItems: readonly EditableSettingItem[];
 }
 
 export interface SectionSettings {
@@ -28,6 +45,7 @@ export interface NavigationSettings {
 
 export interface SiteSettings {
   readonly general: GeneralSettings;
+  readonly admin: AdminSettings;
   readonly navigation: NavigationSettings;
   readonly about: SectionSettings;
   readonly pricing: SectionSettings;
