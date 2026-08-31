@@ -1,11 +1,24 @@
 <header id="application-navigation-header" class="sticky-top">
   <nav id="application-navigation-bar" [class]="Settings().navClass">
     <div id="application-navigation-container" [class]="Settings().containerClass">
-      <a id="application-navigation-brand" [class]="Settings().brandClass" href="#application-main-content"></a>
-      <div id="application-navigation-links" class="navbar-nav flex-row gap-3">
-        <a id="application-navigation-about-link" [class]="Settings().linkClass" href="#application-about-section"></a>
-        <a id="application-navigation-pricing-link" [class]="Settings().linkClass" href="#application-pricing-section"></a>
-        <a id="application-navigation-contact-link" [class]="Settings().linkClass" href="#application-contact-section"></a>
+      <a id="application-navigation-brand" [class]="Settings().brandClass" href="#application-main-content">{{ Settings().brandText }}</a>
+      <button
+        id="application-navigation-toggle"
+        type="button"
+        [class]="Settings().toggleClass"
+        [attr.aria-expanded]="_IsMenuOpen()"
+        aria-controls="application-navigation-links"
+        aria-label="Toggle navigation"
+        (click)="ToggleMenu()"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="application-navigation-links" [class]="Settings().collapseClass" [class.show]="_IsMenuOpen()">
+        <div class="navbar-nav flex-column flex-lg-row gap-lg-3">
+          @for (_Link of Settings().links; track _Link.id) {
+            <a [id]="_Link.id" [class]="Settings().linkClass" [href]="_Link.anchor" (click)="CloseMenu()">{{ _Link.label }}</a>
+          }
+        </div>
       </div>
     </div>
   </nav>

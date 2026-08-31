@@ -1,4 +1,6 @@
 {
   "sectionClass": "py-5 bg-white",
-  "containerClass": "container"
+  "containerClass": "container",
+  "title": "Pricing",
+  "content": "This is placeholder Pricing content. Replace this text with your actual plans and rates."
 }

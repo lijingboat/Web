@@ -1,3 +1,10 @@
 <section id="application-pricing-section" [class]="Settings().sectionClass">
-  <div id="application-pricing-container" [class]="Settings().containerClass"></div>
+  <div id="application-pricing-container" [class]="Settings().containerClass">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8 text-center">
+        <h2 id="application-pricing-title">{{ Settings().title }}</h2>
+        <p id="application-pricing-content">{{ Settings().content }}</p>
+      </div>
+    </div>
+  </div>
 </section>
