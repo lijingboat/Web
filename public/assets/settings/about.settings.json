@@ -1,4 +1,6 @@
 {
   "sectionClass": "py-5 bg-light",
-  "containerClass": "container"
+  "containerClass": "container",
+  "title": "About Us",
+  "content": "This is placeholder About content. Replace this text with real information about your organization."
 }
