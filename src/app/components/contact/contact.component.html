@@ -1,9 +1,9 @@
-<section id="application-contact-section" [class]="Settings().sectionClass">
+<section id="application-contact-section" [class]="Settings().sectionClass + ' application-configured-section'" [style.background-color]="Settings().style.backgroundColor" [style.color]="Settings().style.textColor" [style.font-family]="Settings().style.fontFamily" [style.font-size]="Settings().style.fontSize">
   <div id="application-contact-container" [class]="Settings().containerClass">
     <div id="application-contact-heading" class="row justify-content-center mb-4">
       <div class="col-12 col-lg-8 text-center">
         <p id="application-contact-kicker" class="text-uppercase small fw-semibold text-primary mb-2">Start a conversation</p>
-        <h1 id="application-contact-title" class="display-6">{{ Settings().title }}</h1>
+        <h1 id="application-contact-title" class="display-6" [style.color]="Settings().style.headingColor">{{ Settings().title }}</h1>
         <p id="application-contact-content" class="lead text-body-secondary mb-0">{{ Settings().content }}</p>
       </div>
     </div>

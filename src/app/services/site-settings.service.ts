@@ -48,6 +48,10 @@ export class SiteSettingsService {
     return {
       ...p_DefaultSettings,
       ...p_SavedSettings,
+      general: { ...p_DefaultSettings.general, ...p_SavedSettings.general, style: { ...p_DefaultSettings.general.style, ...p_SavedSettings.general?.style } },
+      about: { ...p_DefaultSettings.about, ...p_SavedSettings.about, style: { ...p_DefaultSettings.about.style, ...p_SavedSettings.about?.style } },
+      pricing: { ...p_DefaultSettings.pricing, ...p_SavedSettings.pricing, style: { ...p_DefaultSettings.pricing.style, ...p_SavedSettings.pricing?.style } },
+      contact: { ...p_DefaultSettings.contact, ...p_SavedSettings.contact, style: { ...p_DefaultSettings.contact.style, ...p_SavedSettings.contact?.style } },
       admin: {
         ...p_DefaultSettings.admin,
         ...p_SavedSettings.admin,

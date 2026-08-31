@@ -1,5 +1,5 @@
 @if (SiteSettingsService.Settings(); as _Settings) {
-  <div id="application-page-shell" [class]="_Settings.general.layoutClass + ' ' + _Settings.general.fontSizeClass">
+  <div id="application-page-shell" [class]="_Settings.general.layoutClass + ' ' + _Settings.general.fontSizeClass" [style.background-color]="_Settings.general.style.backgroundColor" [style.color]="_Settings.general.style.textColor" [style.font-family]="_Settings.general.style.fontFamily" [style.font-size]="_Settings.general.style.fontSize">
     <app-navigation id="application-navigation" [Settings]="_Settings.navigation"></app-navigation>
     <main id="application-main-content">
       @for (_LayoutItem of _Settings.admin.contentLayout; track _LayoutItem.id) {

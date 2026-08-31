@@ -1,6 +1,7 @@
 export interface GeneralSettings {
   readonly layoutClass: string;
   readonly fontSizeClass: string;
+  readonly style: SectionStyleSettings;
 }
 
 export type ContentSectionId = 'about' | 'pricing' | 'contact';
@@ -17,11 +18,20 @@ export interface AdminSettings {
   readonly contentLayout: readonly ContentLayoutItem[];
 }
 
+export interface SectionStyleSettings {
+  readonly backgroundColor: string;
+  readonly textColor: string;
+  readonly headingColor: string;
+  readonly fontFamily: string;
+  readonly fontSize: string;
+}
+
 export interface SectionSettings {
   readonly sectionClass: string;
   readonly containerClass: string;
   readonly title: string;
   readonly content: string;
+  readonly style: SectionStyleSettings;
 }
 
 export interface NavigationLinkSettings {

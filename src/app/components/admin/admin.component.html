@@ -19,11 +19,39 @@
         }
       </header>
 
-      <section id="application-admin-layout-preview" class="border bg-white p-4 rounded-2 mb-4">
-        <h2 id="application-admin-layout-preview-title" class="h4">Page sections</h2>
-        <p id="application-admin-layout-preview-description" class="text-body-secondary">Drag visible sections to change their order. Hide or restore sections without affecting the fixed navigation bar.</p>
-        <app-content-layout-preview id="application-admin-layout-preview-canvas" [Settings]="_Settings" (Toggle)="ToggleLayoutItem($event)" (Move)="MoveLayoutItem($event.index, $event.direction)" (Reorder)="ReorderLayoutItems($event.sourceIndex, $event.targetIndex)"></app-content-layout-preview>
+      <section id="application-admin-layout-workspace" class="border bg-white p-4 rounded-2 mb-4">
+        <div class="row g-4">
+          <div class="col-12 col-xl-6">
+            <h2 id="application-admin-layout-html-title" class="h4">HTML layout code</h2>
+            <p id="application-admin-layout-html-description" class="text-body-secondary">Edit the page and section styles, then update the live layout.</p>
+            <label for="application-admin-layout-html-input" class="form-label">Layout HTML</label>
+            <textarea id="application-admin-layout-html-input" class="form-control font-monospace" rows="20" spellcheck="false" [(ngModel)]="_LayoutHtml"></textarea>
+            <p id="application-admin-layout-html-grammar" class="form-text mb-0">Wrap sections in one main element. Main and section elements accept data-background-color, data-text-color, data-heading-color, data-font-family, and data-font-size. Sections also require data-section and data-visible.</p>
+            @if (_LayoutHtmlError(); as _Error) { <p id="application-admin-layout-html-error" class="alert alert-danger mt-3 mb-0">{{ _Error }}</p> }
+            <button id="application-admin-layout-html-apply" type="button" class="btn btn-outline-primary mt-3" (click)="ApplyHtmlLayout()">Update live layout</button>
+          </div>
+          <div class="col-12 col-xl-6">
+            <h2 id="application-admin-layout-preview-title" class="h4">Live layout preview</h2>
+            <p id="application-admin-layout-preview-description" class="text-body-secondary">Drag visible sections to change their order. Hide or restore sections without affecting the fixed navigation bar.</p>
+            <app-content-layout-preview id="application-admin-layout-preview-canvas" [Settings]="_Settings" (Toggle)="ToggleLayoutItem($event)" (Move)="MoveLayoutItem($event.index, $event.direction)" (Reorder)="ReorderLayoutItems($event.sourceIndex, $event.targetIndex)"></app-content-layout-preview>
+          </div>
+        </div>
       </section>
+
+      @if (DraftAuthService.CurrentUser()?.role === 'admin') {
+        <section id="application-admin-user-management" class="border bg-white p-4 rounded-2 mb-4">
+          <h2 id="application-admin-user-management-title" class="h4">User and role management</h2>
+          <p id="application-admin-user-management-description" class="text-body-secondary">Draft users are stored only in this browser until backend authentication is available.</p>
+          <div class="row g-3 align-items-end">
+            <div class="col-12 col-md-4"><label for="application-admin-managed-username" class="form-label">Username</label><input id="application-admin-managed-username" class="form-control" [(ngModel)]="_ManagedUsername"></div>
+            <div class="col-12 col-md-3"><label for="application-admin-managed-password" class="form-label">Password</label><input id="application-admin-managed-password" class="form-control" type="password" [(ngModel)]="_ManagedPassword"></div>
+            <div class="col-12 col-md-3"><label for="application-admin-managed-role" class="form-label">Role</label><select id="application-admin-managed-role" class="form-select" [(ngModel)]="_ManagedRole"><option value="admin">Admin</option><option value="manager">Manager</option><option value="user">User</option></select></div>
+            <div class="col-12 col-md-2"><button id="application-admin-managed-save" type="button" class="btn btn-primary w-100" (click)="SaveManagedUser()">Save user</button></div>
+          </div>
+          @if (_UserManagementMessage(); as _Message) { <p id="application-admin-user-management-message" class="alert alert-secondary mt-3 mb-0">{{ _Message }}</p> }
+          <div id="application-admin-managed-users" class="table-responsive mt-4"><table class="table align-middle mb-0"><thead><tr><th>Username</th><th>Role</th><th class="text-end">Actions</th></tr></thead><tbody>@for (_User of DraftAuthService.Users(); track _User.username) { <tr [id]="'application-admin-managed-user-' + _User.username"><td>{{ _User.username }}</td><td class="text-capitalize">{{ _User.role }}</td><td class="text-end"><button [id]="'application-admin-managed-edit-' + _User.username" type="button" class="btn btn-outline-secondary btn-sm me-2" (click)="EditManagedUser(_User.username, _User.password, _User.role)">Edit</button><button [id]="'application-admin-managed-remove-' + _User.username" type="button" class="btn btn-outline-danger btn-sm" [disabled]="_User.username === DraftAuthService.CurrentUser()?.username" (click)="RemoveManagedUser(_User.username)">Remove</button></td></tr> }</tbody></table></div>
+        </section>
+      }
 
       <section id="application-admin-actions-panel" class="border bg-white p-4 rounded-2">
         <h2 id="application-admin-actions-panel-title" class="h4">Draft actions</h2>

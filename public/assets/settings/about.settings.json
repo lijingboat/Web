@@ -2,5 +2,6 @@
   "sectionClass": "py-5 bg-light",
   "containerClass": "container",
   "title": "A stay shaped around you",
-  "content": "This sample page presents a welcoming, quietly practical place to pause between plans. Every detail is placeholder copy designed for easy replacement."
+  "content": "This sample page presents a welcoming, quietly practical place to pause between plans. Every detail is placeholder copy designed for easy replacement.",
+  "style": { "backgroundColor": "#fff8d9", "textColor": "#3f3618", "headingColor": "#8a6a00", "fontFamily": "Georgia, serif", "fontSize": "1rem" }
 }

@@ -1,9 +1,9 @@
-<section id="application-about-section" [class]="Settings().sectionClass">
+<section id="application-about-section" [class]="Settings().sectionClass + ' application-configured-section'" [style.background-color]="Settings().style.backgroundColor" [style.color]="Settings().style.textColor" [style.font-family]="Settings().style.fontFamily" [style.font-size]="Settings().style.fontSize">
   <div id="application-about-container" [class]="Settings().containerClass">
     <div id="application-about-heading" class="row justify-content-center mb-4">
       <div class="col-12 col-lg-8 text-center">
         <p id="application-about-kicker" class="text-uppercase small fw-semibold text-primary mb-2">A considered stay</p>
-        <h1 id="application-about-title" class="display-6">{{ Settings().title }}</h1>
+        <h1 id="application-about-title" class="display-6" [style.color]="Settings().style.headingColor">{{ Settings().title }}</h1>
         <p id="application-about-content" class="lead text-body-secondary mb-0">{{ Settings().content }}</p>
       </div>
     </div>

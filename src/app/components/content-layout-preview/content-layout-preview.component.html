@@ -1,13 +1,13 @@
-<div id="application-content-layout-preview" class="border rounded-2 overflow-hidden">
+<div id="application-content-layout-preview" class="border rounded-2 overflow-hidden" [style.background-color]="Settings().general.style.backgroundColor" [style.color]="Settings().general.style.textColor" [style.font-family]="Settings().general.style.fontFamily" [style.font-size]="Settings().general.style.fontSize">
   <div id="application-content-layout-preview-navigation" class="bg-dark text-white px-3 py-2 small">Fixed navigation</div>
   <div id="application-content-layout-preview-content" class="p-3 p-md-4 vstack gap-3">
     @for (_LayoutItem of Settings().admin.contentLayout; track _LayoutItem.id) {
       @if (_LayoutItem.enabled) {
-        <article [id]="'application-content-layout-preview-' + _LayoutItem.id" class="border rounded-2 p-3 bg-light user-select-none" draggable="true" [attr.aria-label]="_LayoutItem.label + ' draggable section'" (dragstart)="StartDragging($index)" (dragover)="$event.preventDefault()" (drop)="DropLayoutItem($index)">
+        <article [id]="'application-content-layout-preview-' + _LayoutItem.id" class="border rounded-2 p-3 user-select-none" draggable="true" [attr.aria-label]="_LayoutItem.label + ' draggable section'" [style.background-color]="GetSectionStyle(_LayoutItem.id).backgroundColor" [style.color]="GetSectionStyle(_LayoutItem.id).textColor" [style.font-family]="GetSectionStyle(_LayoutItem.id).fontFamily" [style.font-size]="GetSectionStyle(_LayoutItem.id).fontSize" (dragstart)="StartDragging($index)" (dragover)="$event.preventDefault()" (drop)="DropLayoutItem($index)">
           <div [id]="'application-content-layout-preview-' + _LayoutItem.id + '-header'" class="d-flex justify-content-between align-items-start gap-3">
             <div>
               <p [id]="'application-content-layout-preview-' + _LayoutItem.id + '-label'" class="text-uppercase small fw-semibold text-primary mb-1">{{ _LayoutItem.label }} section</p>
-              <h3 [id]="'application-content-layout-preview-' + _LayoutItem.id + '-title'" class="h5 mb-1">{{ _LayoutItem.label }} content block</h3>
+              <h3 [id]="'application-content-layout-preview-' + _LayoutItem.id + '-title'" class="h5 mb-1" [style.color]="GetSectionStyle(_LayoutItem.id).headingColor">{{ _LayoutItem.label }} content block</h3>
             </div>
             <button [id]="'application-content-layout-preview-hide-' + _LayoutItem.id" type="button" class="btn btn-outline-secondary btn-sm" [title]="'Hide ' + _LayoutItem.label + ' section'" (click)="Toggle.emit($index)">Hide</button>
           </div>

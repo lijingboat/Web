@@ -5,3 +5,9 @@ export interface DraftUser {
   readonly password: string;
   readonly role: DraftUserRole;
 }
+
+export interface DraftUserRequest {
+  readonly username: string;
+  readonly password: string;
+  readonly role: DraftUserRole;
+}

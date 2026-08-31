@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { SiteSettings } from '../../library/site-settings.models';
+import { ContentSectionId, SectionStyleSettings, SiteSettings } from '../../library/site-settings.models';
 
 export interface LayoutMoveRequest {
   readonly index: number;
@@ -33,5 +33,9 @@ export class ContentLayoutPreviewComponent {
     if (_SourceIndex !== null) {
       this.Reorder.emit({ sourceIndex: _SourceIndex, targetIndex: p_TargetIndex });
     }
+  }
+
+  protected GetSectionStyle(p_SectionId: string): SectionStyleSettings {
+    return this.Settings()[p_SectionId as ContentSectionId].style;
   }
 }

@@ -27,3 +27,8 @@ body {
 	--bs-btn-hover-bg: #8a6a00;
 	--bs-btn-hover-border-color: #8a6a00;
 }
+
+.application-configured-section .text-body-secondary {
+	color: inherit !important;
+	opacity: 0.75;
+}
