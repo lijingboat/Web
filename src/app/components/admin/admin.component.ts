@@ -1,5 +1,4 @@
 import { Component, effect, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { ContentLayoutItem, SiteSettings } from '../../library/site-settings.models';
 import { DraftAuthService } from '../../services/draft-auth.service';
 import { SiteSettingsService } from '../../services/site-settings.service';
@@ -7,7 +6,7 @@ import { ContentLayoutPreviewComponent } from '../content-layout-preview/content
 
 @Component({
   selector: 'app-admin',
-  imports: [ContentLayoutPreviewComponent, FormsModule],
+  imports: [ContentLayoutPreviewComponent],
   standalone: true,
   templateUrl: './admin.component.html',
 })
@@ -44,6 +43,18 @@ export class AdminComponent {
     const _ContentLayout = _Settings.admin.contentLayout.map((_Item, _ItemIndex) => _ItemIndex === p_Index
       ? { ..._Item, enabled: !_Item.enabled }
       : _Item);
+    this.UpdateLayout(_Settings, _ContentLayout);
+  }
+
+  protected ReorderLayoutItems(p_SourceIndex: number, p_TargetIndex: number): void {
+    const _Settings = this._DraftSettings();
+    if (!_Settings || p_SourceIndex === p_TargetIndex) {
+      return;
+    }
+
+    const _ContentLayout = [..._Settings.admin.contentLayout];
+    const [_DraggedItem] = _ContentLayout.splice(p_SourceIndex, 1);
+    _ContentLayout.splice(p_TargetIndex, 0, _DraggedItem);
     this.UpdateLayout(_Settings, _ContentLayout);
   }
 

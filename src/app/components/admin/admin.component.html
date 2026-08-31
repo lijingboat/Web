@@ -19,30 +19,10 @@
         }
       </header>
 
-      <section id="application-admin-layout-controls" class="border bg-white p-4 rounded-2 mb-4">
-        <h2 id="application-admin-layout-controls-title" class="h4">Visible page sections</h2>
-        <p id="application-admin-layout-controls-description" class="text-body-secondary">The navigation bar is fixed. Toggle each content block and move it in the public page order.</p>
-        <div id="application-admin-layout-item-list" class="vstack gap-2">
-          @for (_LayoutItem of _Settings.admin.contentLayout; track _LayoutItem.id; let _Index = $index) {
-            <div [id]="'application-admin-layout-item-' + _LayoutItem.id" class="border rounded-2 p-3 d-flex flex-column flex-sm-row align-items-sm-center gap-3">
-              <div class="form-check form-switch flex-grow-1">
-                <input [id]="'application-admin-layout-visible-' + _LayoutItem.id" [attr.aria-label]="'Show ' + _LayoutItem.label + ' section'" title="Toggle public section visibility" class="form-check-input" type="checkbox" [checked]="_LayoutItem.enabled" (change)="ToggleLayoutItem(_Index)">
-                <label [for]="'application-admin-layout-visible-' + _LayoutItem.id" class="form-check-label fw-semibold">{{ _LayoutItem.label }}</label>
-                <p [id]="'application-admin-layout-status-' + _LayoutItem.id" class="small text-body-secondary mb-0">{{ _LayoutItem.enabled ? 'Visible on the public page' : 'Hidden from the public page' }}</p>
-              </div>
-              <div [id]="'application-admin-layout-order-' + _LayoutItem.id" class="btn-group" role="group" [attr.aria-label]="_LayoutItem.label + ' position'">
-                <button [id]="'application-admin-layout-move-up-' + _LayoutItem.id" type="button" class="btn btn-outline-secondary btn-sm" [disabled]="_Index === 0" (click)="MoveLayoutItem(_Index, -1)">Move up</button>
-                <button [id]="'application-admin-layout-move-down-' + _LayoutItem.id" type="button" class="btn btn-outline-secondary btn-sm" [disabled]="_Index === _Settings.admin.contentLayout.length - 1" (click)="MoveLayoutItem(_Index, 1)">Move down</button>
-              </div>
-            </div>
-          }
-        </div>
-      </section>
-
       <section id="application-admin-layout-preview" class="border bg-white p-4 rounded-2 mb-4">
-        <h2 id="application-admin-layout-preview-title" class="h4">Live layout preview</h2>
-        <p id="application-admin-layout-preview-description" class="text-body-secondary">This responsive canvas represents the content order that visitors see.</p>
-        <app-content-layout-preview id="application-admin-layout-preview-canvas" [Settings]="_Settings"></app-content-layout-preview>
+        <h2 id="application-admin-layout-preview-title" class="h4">Page sections</h2>
+        <p id="application-admin-layout-preview-description" class="text-body-secondary">Drag visible sections to change their order. Hide or restore sections without affecting the fixed navigation bar.</p>
+        <app-content-layout-preview id="application-admin-layout-preview-canvas" [Settings]="_Settings" (Toggle)="ToggleLayoutItem($event)" (Move)="MoveLayoutItem($event.index, $event.direction)" (Reorder)="ReorderLayoutItems($event.sourceIndex, $event.targetIndex)"></app-content-layout-preview>
       </section>
 
       <section id="application-admin-actions-panel" class="border bg-white p-4 rounded-2">

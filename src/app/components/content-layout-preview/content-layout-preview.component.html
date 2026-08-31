@@ -3,15 +3,36 @@
   <div id="application-content-layout-preview-content" class="p-3 p-md-4 vstack gap-3">
     @for (_LayoutItem of Settings().admin.contentLayout; track _LayoutItem.id) {
       @if (_LayoutItem.enabled) {
-        <article [id]="'application-content-layout-preview-' + _LayoutItem.id" class="border rounded-2 p-3 bg-light">
-          <p [id]="'application-content-layout-preview-' + _LayoutItem.id + '-label'" class="text-uppercase small fw-semibold text-primary mb-1">{{ _LayoutItem.label }} section</p>
-          <h3 [id]="'application-content-layout-preview-' + _LayoutItem.id + '-title'" class="h5 mb-1">{{ _LayoutItem.label }} content block</h3>
+        <article [id]="'application-content-layout-preview-' + _LayoutItem.id" class="border rounded-2 p-3 bg-light user-select-none" draggable="true" [attr.aria-label]="_LayoutItem.label + ' draggable section'" (dragstart)="StartDragging($index)" (dragover)="$event.preventDefault()" (drop)="DropLayoutItem($index)">
+          <div [id]="'application-content-layout-preview-' + _LayoutItem.id + '-header'" class="d-flex justify-content-between align-items-start gap-3">
+            <div>
+              <p [id]="'application-content-layout-preview-' + _LayoutItem.id + '-label'" class="text-uppercase small fw-semibold text-primary mb-1">{{ _LayoutItem.label }} section</p>
+              <h3 [id]="'application-content-layout-preview-' + _LayoutItem.id + '-title'" class="h5 mb-1">{{ _LayoutItem.label }} content block</h3>
+            </div>
+            <button [id]="'application-content-layout-preview-hide-' + _LayoutItem.id" type="button" class="btn btn-outline-secondary btn-sm" [title]="'Hide ' + _LayoutItem.label + ' section'" (click)="Toggle.emit($index)">Hide</button>
+          </div>
           <div [id]="'application-content-layout-preview-' + _LayoutItem.id + '-line'" class="placeholder-glow"><span class="placeholder col-10"></span></div>
+          <div [id]="'application-content-layout-preview-' + _LayoutItem.id + '-actions'" class="btn-group mt-3" role="group" [attr.aria-label]="_LayoutItem.label + ' position'">
+            <button [id]="'application-content-layout-preview-move-up-' + _LayoutItem.id" type="button" class="btn btn-outline-secondary btn-sm" [disabled]="$index === 0" (click)="Move.emit({ index: $index, direction: -1 })">Move up</button>
+            <button [id]="'application-content-layout-preview-move-down-' + _LayoutItem.id" type="button" class="btn btn-outline-secondary btn-sm" [disabled]="$index === Settings().admin.contentLayout.length - 1" (click)="Move.emit({ index: $index, direction: 1 })">Move down</button>
+          </div>
         </article>
       }
     }
-    @if (!Settings().admin.contentLayout[0].enabled && !Settings().admin.contentLayout[1].enabled && !Settings().admin.contentLayout[2].enabled) {
+    @if (Settings().admin.contentLayout.every((_LayoutItem) => !_LayoutItem.enabled)) {
       <p id="application-content-layout-preview-empty" class="text-body-secondary mb-0">No content sections are visible.</p>
     }
   </div>
+  @if (Settings().admin.contentLayout.some((_LayoutItem) => !_LayoutItem.enabled)) {
+    <div id="application-content-layout-preview-hidden" class="border-top p-3 p-md-4 bg-white">
+      <p id="application-content-layout-preview-hidden-title" class="small fw-semibold text-body-secondary mb-2">Hidden sections</p>
+      <div id="application-content-layout-preview-add-actions" class="d-flex flex-wrap gap-2">
+        @for (_LayoutItem of Settings().admin.contentLayout; track _LayoutItem.id) {
+          @if (!_LayoutItem.enabled) {
+            <button [id]="'application-content-layout-preview-add-' + _LayoutItem.id" type="button" class="btn btn-outline-primary btn-sm" [title]="'Show ' + _LayoutItem.label + ' section'" (click)="Toggle.emit($index)">Add {{ _LayoutItem.label }}</button>
+          }
+        }
+      </div>
+    </div>
+  }
 </div>

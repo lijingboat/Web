@@ -23,7 +23,7 @@ export class SiteSettingsService {
       about: this._HttpClient.get<SiteSettings['about']>('assets/settings/about.settings.json'),
       pricing: this._HttpClient.get<SiteSettings['pricing']>('assets/settings/pricing.settings.json'),
       contact: this._HttpClient.get<SiteSettings['contact']>('assets/settings/contact.settings.json'),
-    }).subscribe((_Settings) => this._Settings.set(this.GetSavedSettings() ?? _Settings));
+    }).subscribe((_Settings) => this._Settings.set(this.MergeSavedSettings(_Settings, this.GetSavedSettings())));
   }
 
   public ApplySettings(p_Settings: SiteSettings): void {
@@ -38,5 +38,21 @@ export class SiteSettingsService {
   private GetSavedSettings(): SiteSettings | null {
     const _SavedSettings = localStorage.getItem(_StorageKey);
     return _SavedSettings ? JSON.parse(_SavedSettings) as SiteSettings : null;
+  }
+
+  private MergeSavedSettings(p_DefaultSettings: SiteSettings, p_SavedSettings: SiteSettings | null): SiteSettings {
+    if (!p_SavedSettings) {
+      return p_DefaultSettings;
+    }
+
+    return {
+      ...p_DefaultSettings,
+      ...p_SavedSettings,
+      admin: {
+        ...p_DefaultSettings.admin,
+        ...p_SavedSettings.admin,
+        contentLayout: p_SavedSettings.admin?.contentLayout ?? p_DefaultSettings.admin.contentLayout,
+      },
+    };
   }
 }
