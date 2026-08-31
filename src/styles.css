@@ -1,1 +1,29 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+	--bs-primary: #8a6a00;
+	--bs-primary-rgb: 138, 106, 0;
+	--bs-body-bg: #fff8d9;
+	--bs-body-color: #3f3618;
+	--bs-border-color: #e7d899;
+}
+
+body {
+	background-color: #fff8d9;
+}
+
+.btn-primary {
+	--bs-btn-bg: #8a6a00;
+	--bs-btn-border-color: #8a6a00;
+	--bs-btn-hover-bg: #6f5500;
+	--bs-btn-hover-border-color: #6f5500;
+	--bs-btn-active-bg: #5e4800;
+	--bs-btn-active-border-color: #5e4800;
+}
+
+.btn-outline-primary {
+	--bs-btn-color: #8a6a00;
+	--bs-btn-border-color: #8a6a00;
+	--bs-btn-hover-bg: #8a6a00;
+	--bs-btn-hover-border-color: #8a6a00;
+}

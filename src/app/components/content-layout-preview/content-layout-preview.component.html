@@ -1,0 +1,17 @@
+<div id="application-content-layout-preview" class="border rounded-2 overflow-hidden">
+  <div id="application-content-layout-preview-navigation" class="bg-dark text-white px-3 py-2 small">Fixed navigation</div>
+  <div id="application-content-layout-preview-content" class="p-3 p-md-4 vstack gap-3">
+    @for (_LayoutItem of Settings().admin.contentLayout; track _LayoutItem.id) {
+      @if (_LayoutItem.enabled) {
+        <article [id]="'application-content-layout-preview-' + _LayoutItem.id" class="border rounded-2 p-3 bg-light">
+          <p [id]="'application-content-layout-preview-' + _LayoutItem.id + '-label'" class="text-uppercase small fw-semibold text-primary mb-1">{{ _LayoutItem.label }} section</p>
+          <h3 [id]="'application-content-layout-preview-' + _LayoutItem.id + '-title'" class="h5 mb-1">{{ _LayoutItem.label }} content block</h3>
+          <div [id]="'application-content-layout-preview-' + _LayoutItem.id + '-line'" class="placeholder-glow"><span class="placeholder col-10"></span></div>
+        </article>
+      }
+    }
+    @if (!Settings().admin.contentLayout[0].enabled && !Settings().admin.contentLayout[1].enabled && !Settings().admin.contentLayout[2].enabled) {
+      <p id="application-content-layout-preview-empty" class="text-body-secondary mb-0">No content sections are visible.</p>
+    }
+  </div>
+</div>

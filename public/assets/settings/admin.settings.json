@@ -1,9 +1,9 @@
 {
-  "displayName": "Test Administrator",
-  "role": "Administrator",
-  "showNavigation": true,
-  "showAbout": true,
-  "showPricing": true,
-  "showContact": true,
-  "pageLoadItems": []
+  "displayName": "admin",
+  "role": "admin",
+  "contentLayout": [
+    { "id": "about", "label": "About", "enabled": true },
+    { "id": "pricing", "label": "Pricing", "enabled": true },
+    { "id": "contact", "label": "Contact", "enabled": true }
+  ]
 }

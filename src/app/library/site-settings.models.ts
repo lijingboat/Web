@@ -3,7 +3,9 @@ export interface GeneralSettings {
   readonly fontSizeClass: string;
 }
 
-export interface EditableSettingItem {
+export type ContentSectionId = 'about' | 'pricing' | 'contact';
+
+export interface ContentLayoutItem {
   readonly id: string;
   readonly label: string;
   readonly enabled: boolean;
@@ -12,11 +14,7 @@ export interface EditableSettingItem {
 export interface AdminSettings {
   readonly displayName: string;
   readonly role: string;
-  readonly showNavigation: boolean;
-  readonly showAbout: boolean;
-  readonly showPricing: boolean;
-  readonly showContact: boolean;
-  readonly pageLoadItems: readonly EditableSettingItem[];
+  readonly contentLayout: readonly ContentLayoutItem[];
 }
 
 export interface SectionSettings {

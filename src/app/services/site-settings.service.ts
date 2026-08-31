@@ -23,7 +23,7 @@ export class SiteSettingsService {
       about: this._HttpClient.get<SiteSettings['about']>('assets/settings/about.settings.json'),
       pricing: this._HttpClient.get<SiteSettings['pricing']>('assets/settings/pricing.settings.json'),
       contact: this._HttpClient.get<SiteSettings['contact']>('assets/settings/contact.settings.json'),
-    }).subscribe((_Settings) => this._Settings.set(this.CreatePageLoadSettings(this.GetSavedSettings() ?? _Settings)));
+    }).subscribe((_Settings) => this._Settings.set(this.GetSavedSettings() ?? _Settings));
   }
 
   public ApplySettings(p_Settings: SiteSettings): void {
@@ -33,22 +33,6 @@ export class SiteSettingsService {
   public SaveSettings(p_Settings: SiteSettings): void {
     localStorage.setItem(_StorageKey, JSON.stringify(p_Settings));
     this._Settings.set(p_Settings);
-  }
-
-  private CreatePageLoadSettings(p_Settings: SiteSettings): SiteSettings {
-    const _PageLoadItem = {
-      id: `application-admin-page-load-setting-${Date.now()}`,
-      label: 'New setting item for this page load',
-      enabled: true,
-    };
-
-    return {
-      ...p_Settings,
-      admin: {
-        ...p_Settings.admin,
-        pageLoadItems: [_PageLoadItem],
-      },
-    };
   }
 
   private GetSavedSettings(): SiteSettings | null {

@@ -1,0 +1,22 @@
+<main id="application-login-page" class="min-vh-100 d-flex align-items-center py-5">
+  <section id="application-login-panel" class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-9 col-md-7 col-lg-5">
+        <form id="application-login-form" class="border bg-white p-4 rounded-2 shadow-sm" (ngSubmit)="SignIn()">
+          <p id="application-login-kicker" class="text-uppercase small fw-semibold text-primary mb-2">Draft access</p>
+          <h1 id="application-login-title" class="h3">Admin sign in</h1>
+          <p id="application-login-description" class="text-body-secondary">Use a draft account while backend services are being prepared.</p>
+          <label for="application-login-username" class="form-label">Username</label>
+          <input id="application-login-username" class="form-control" name="username" [(ngModel)]="_Username" autocomplete="username" required>
+          <label for="application-login-password" class="form-label mt-3">Password</label>
+          <input id="application-login-password" class="form-control" name="password" type="password" [(ngModel)]="_Password" autocomplete="current-password" required>
+          @if (_ErrorMessage(); as _Message) { <p id="application-login-error" class="alert alert-danger mt-3 mb-0">{{ _Message }}</p> }
+          <button id="application-login-submit" class="btn btn-primary w-100 mt-4" type="submit">Sign in</button>
+          <div id="application-login-divider" class="d-flex align-items-center gap-2 text-body-secondary small my-3"><span class="flex-grow-1 border-top"></span><span>or</span><span class="flex-grow-1 border-top"></span></div>
+          <button id="application-login-google" class="btn btn-outline-secondary w-100" type="button" (click)="OpenSsoDialog()"><span class="fw-semibold text-primary me-2">G</span>Continue with Google</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+<app-sso-dialog id="application-login-sso-dialog" [IsOpen]="_IsSsoDialogOpen()" (Close)="CloseSsoDialog()"></app-sso-dialog>

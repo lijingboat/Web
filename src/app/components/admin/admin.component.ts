@@ -1,73 +1,54 @@
 import { Component, effect, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AccountRole, IdentityProvider, PasswordRecoveryChallenge } from '../../library/account-access.models';
-import { SiteSettings } from '../../library/site-settings.models';
-import { AccountAccessPrototypeService } from '../../services/account-access-prototype.service';
+import { ContentLayoutItem, SiteSettings } from '../../library/site-settings.models';
+import { DraftAuthService } from '../../services/draft-auth.service';
 import { SiteSettingsService } from '../../services/site-settings.service';
+import { ContentLayoutPreviewComponent } from '../content-layout-preview/content-layout-preview.component';
 
 @Component({
   selector: 'app-admin',
-  imports: [DatePipe, FormsModule],
+  imports: [ContentLayoutPreviewComponent, FormsModule],
   standalone: true,
   templateUrl: './admin.component.html',
 })
 export class AdminComponent {
   protected readonly _DraftSettings = signal<SiteSettings | null>(null);
-  protected _AccountName = '';
-  protected _AccountRole: AccountRole = 'User';
-  protected _RecoveryEmail = '';
-  protected _RecoveryCode = '';
-  protected _RecoveryChallenge = signal<PasswordRecoveryChallenge | null>(null);
-  protected _AccountMessage = signal<string | null>(null);
-  protected _AccountError = signal<string | null>(null);
-  protected _RecoveryMessage = signal<string | null>(null);
-  protected _RecoveryError = signal<string | null>(null);
 
   public constructor(
     protected readonly SiteSettingsService: SiteSettingsService,
-    private readonly AccountAccessService: AccountAccessPrototypeService,
+    protected readonly DraftAuthService: DraftAuthService,
   ) {
     effect(() => this._DraftSettings.set(this.CloneSettings(this.SiteSettingsService.Settings())));
   }
 
-  protected CreateAccount(): void {
-    this._AccountMessage.set(null);
-    this._AccountError.set(null);
-    this.AccountAccessService.CreateAccount({ accountName: this._AccountName, role: this._AccountRole }).subscribe({
-      next: (_Account) => this._AccountMessage.set(`Account created for ${_Account.accountName} with the ${_Account.role} role.`),
-      error: (_Error: Error) => this._AccountError.set(_Error.message),
-    });
-  }
-
-  protected StartPasswordRecovery(): void {
-    this._RecoveryMessage.set(null);
-    this._RecoveryError.set(null);
-    this.AccountAccessService.StartPasswordRecovery({ email: this._RecoveryEmail }).subscribe({
-      next: (_Challenge) => {
-        this._RecoveryChallenge.set(_Challenge);
-        this._RecoveryMessage.set('A six-digit verification code is ready for this prototype and expires in two hours.');
-      },
-      error: (_Error: Error) => this._RecoveryError.set(_Error.message),
-    });
-  }
-
-  protected VerifyPasswordRecoveryCode(): void {
-    const _Challenge = this._RecoveryChallenge();
-    if (!_Challenge) {
-      this._RecoveryError.set('Request a verification code before attempting recovery.');
+  protected MoveLayoutItem(p_Index: number, p_Direction: number): void {
+    const _Settings = this._DraftSettings();
+    const _TargetIndex = p_Index + p_Direction;
+    if (!_Settings || _TargetIndex < 0 || _TargetIndex >= _Settings.admin.contentLayout.length) {
       return;
     }
 
-    this.AccountAccessService.VerifyPasswordRecoveryCode(_Challenge.email, this._RecoveryCode).subscribe((_IsValid) => {
-      this._RecoveryError.set(_IsValid ? null : 'The verification code is invalid or has expired.');
-      this._RecoveryMessage.set(_IsValid ? 'Verification accepted. A password-reset flow can now be connected to an API.' : null);
-    });
+    const _ContentLayout = [..._Settings.admin.contentLayout];
+    const _CurrentItem = _ContentLayout[p_Index];
+    _ContentLayout[p_Index] = _ContentLayout[_TargetIndex];
+    _ContentLayout[_TargetIndex] = _CurrentItem;
+    this.UpdateLayout(_Settings, _ContentLayout);
   }
 
-  protected RegisterWithProvider(p_Provider: IdentityProvider): void {
-    this._AccountError.set(null);
-    this.AccountAccessService.RegisterWithProvider(p_Provider).subscribe((_Message) => this._AccountMessage.set(_Message));
+  protected ToggleLayoutItem(p_Index: number): void {
+    const _Settings = this._DraftSettings();
+    if (!_Settings) {
+      return;
+    }
+
+    const _ContentLayout = _Settings.admin.contentLayout.map((_Item, _ItemIndex) => _ItemIndex === p_Index
+      ? { ..._Item, enabled: !_Item.enabled }
+      : _Item);
+    this.UpdateLayout(_Settings, _ContentLayout);
+  }
+
+  protected SignOut(): void {
+    this.DraftAuthService.SignOut();
   }
 
   protected Apply(): void {
@@ -90,5 +71,15 @@ export class AdminComponent {
 
   private CloneSettings(p_Settings: SiteSettings | null): SiteSettings | null {
     return p_Settings ? structuredClone(p_Settings) : null;
+  }
+
+  private UpdateLayout(p_Settings: SiteSettings, p_ContentLayout: ContentLayoutItem[]): void {
+    this._DraftSettings.set({
+      ...p_Settings,
+      admin: {
+        ...p_Settings.admin,
+        contentLayout: p_ContentLayout,
+      },
+    });
   }
 }

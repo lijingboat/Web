@@ -1,78 +1,57 @@
 @if (_DraftSettings(); as _Settings) {
-  <section id="application-admin-section" class="min-vh-100 py-5 bg-body-tertiary">
+  <section id="application-admin-section" class="min-vh-100 py-5">
     <div id="application-admin-container" class="container">
-      <div id="application-admin-header" class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-4">
+      <header id="application-admin-header" class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4 pb-3 border-bottom">
         <div>
-          <p id="application-admin-kicker" class="text-uppercase small fw-semibold text-primary mb-1">Administration</p>
-          <h1 id="application-admin-title" class="h2 mb-1">Account access</h1>
-          <p id="application-admin-description" class="text-body-secondary mb-0">Create and manage sample access flows before an API is connected.</p>
+          <p id="application-admin-kicker" class="text-uppercase small fw-semibold text-primary mb-1">Draft administration</p>
+          <h1 id="application-admin-title" class="h2 mb-1">Content layout</h1>
+          <p id="application-admin-description" class="text-body-secondary mb-0">Arrange the public content blocks and apply the draft layout when ready.</p>
         </div>
-        <a id="application-admin-return-link" class="btn btn-outline-secondary" href="/">Return to site</a>
-      </div>
-
-      <div id="application-admin-account-tools" class="row g-4">
-        <div class="col-12 col-lg-6">
-          <section id="application-admin-create-account" class="border bg-white p-4 h-100 rounded-2">
-            <h2 id="application-admin-create-account-title" class="h4">Create account</h2>
-            <p id="application-admin-create-account-description" class="text-body-secondary">Use one verified contact identifier for each account.</p>
-            <label for="application-admin-account-name" class="form-label">Email address or phone number</label>
-            <input id="application-admin-account-name" class="form-control" type="text" [(ngModel)]="_AccountName" placeholder="name@example.com or +1 555 010 0200">
-            <label for="application-admin-account-role" class="form-label mt-3">Account role</label>
-            <select id="application-admin-account-role" class="form-select" [(ngModel)]="_AccountRole">
-              <option value="Admin">Admin</option>
-              <option value="Manager">Manager</option>
-              <option value="User">User</option>
-            </select>
-            <button id="application-admin-create-account-submit" type="button" class="btn btn-primary mt-4" (click)="CreateAccount()">Create account</button>
-            @if (_AccountMessage(); as _Message) { <p id="application-admin-account-message" class="alert alert-success mt-3 mb-0">{{ _Message }}</p> }
-            @if (_AccountError(); as _Error) { <p id="application-admin-account-error" class="alert alert-danger mt-3 mb-0">{{ _Error }}</p> }
-          </section>
-        </div>
-        <div class="col-12 col-lg-6">
-          <section id="application-admin-password-recovery" class="border bg-white p-4 h-100 rounded-2">
-            <h2 id="application-admin-password-recovery-title" class="h4">Password recovery</h2>
-            <p id="application-admin-password-recovery-description" class="text-body-secondary">Recovery codes use an email address and remain valid for two hours.</p>
-            <label for="application-admin-recovery-email" class="form-label">Email address</label>
-            <input id="application-admin-recovery-email" class="form-control" type="email" [(ngModel)]="_RecoveryEmail" placeholder="name@example.com">
-            <button id="application-admin-recovery-request" type="button" class="btn btn-outline-primary mt-3" (click)="StartPasswordRecovery()">Send verification code</button>
-            @if (_RecoveryChallenge(); as _Challenge) {
-              <div id="application-admin-recovery-verification" class="mt-3">
-                <label for="application-admin-recovery-code" class="form-label">Six-digit verification code</label>
-                <div class="input-group">
-                  <input id="application-admin-recovery-code" class="form-control" inputmode="numeric" maxlength="6" [(ngModel)]="_RecoveryCode" placeholder="000000">
-                  <button id="application-admin-recovery-verify" type="button" class="btn btn-primary" (click)="VerifyPasswordRecoveryCode()">Verify</button>
-                </div>
-                <p id="application-admin-recovery-preview" class="form-text mb-0">Prototype code: {{ _Challenge.previewCode }}. Expires {{ _Challenge.expiresAt | date:'short' }}.</p>
-              </div>
-            }
-            @if (_RecoveryMessage(); as _Message) { <p id="application-admin-recovery-message" class="alert alert-success mt-3 mb-0">{{ _Message }}</p> }
-            @if (_RecoveryError(); as _Error) { <p id="application-admin-recovery-error" class="alert alert-danger mt-3 mb-0">{{ _Error }}</p> }
-          </section>
-        </div>
-        <div class="col-12">
-          <section id="application-admin-sso" class="border bg-white p-4 rounded-2">
-            <h2 id="application-admin-sso-title" class="h4">Single sign-on registration</h2>
-            <p id="application-admin-sso-description" class="text-body-secondary">Provider connections are prototypes until credentials and callback URLs are supplied.</p>
-            <div id="application-admin-sso-actions" class="d-flex flex-wrap gap-2">
-              <button id="application-admin-sso-google" type="button" class="btn btn-outline-dark" (click)="RegisterWithProvider('Google')">Register with Google</button>
-              <button id="application-admin-sso-microsoft" type="button" class="btn btn-outline-dark" (click)="RegisterWithProvider('Microsoft')">Register with Microsoft</button>
-              <button id="application-admin-sso-facebook" type="button" class="btn btn-outline-dark" (click)="RegisterWithProvider('Facebook')">Register with Facebook</button>
+        @if (DraftAuthService.CurrentUser(); as _User) {
+          <div id="application-admin-current-user" class="text-sm-end">
+            <p id="application-admin-current-user-name" class="fw-semibold mb-0">{{ _User.username }}</p>
+            <p id="application-admin-current-user-role" class="small text-body-secondary text-uppercase mb-2">{{ _User.role }}</p>
+            <div id="application-admin-header-actions" class="d-flex gap-2 justify-content-sm-end">
+              <a id="application-admin-return-link" class="btn btn-outline-secondary btn-sm" href="/">View site</a>
+              <a id="application-admin-sign-out" class="btn btn-outline-primary btn-sm" href="/login" (click)="SignOut()">Sign out</a>
             </div>
-          </section>
-        </div>
-      </div>
+          </div>
+        }
+      </header>
 
-      <section id="application-admin-site-preview" class="border bg-white p-4 rounded-2 mt-4">
-        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
-          <div>
-            <h2 id="application-admin-site-preview-title" class="h4 mb-1">Site preview controls</h2>
-            <p id="application-admin-site-preview-description" class="text-body-secondary mb-0">Existing settings remain available for the public sample page.</p>
-          </div>
-          <div id="application-admin-actions" class="btn-group" role="group" aria-label="Site preview actions">
-            <button id="application-admin-apply" type="button" class="btn btn-outline-primary" (click)="Apply()">Apply</button>
-            <button id="application-admin-save" type="button" class="btn btn-primary" (click)="Save()">Save</button>
-            <button id="application-admin-cancel" type="button" class="btn btn-outline-secondary" (click)="Cancel()">Cancel</button>
-          </div>
+      <section id="application-admin-layout-controls" class="border bg-white p-4 rounded-2 mb-4">
+        <h2 id="application-admin-layout-controls-title" class="h4">Visible page sections</h2>
+        <p id="application-admin-layout-controls-description" class="text-body-secondary">The navigation bar is fixed. Toggle each content block and move it in the public page order.</p>
+        <div id="application-admin-layout-item-list" class="vstack gap-2">
+          @for (_LayoutItem of _Settings.admin.contentLayout; track _LayoutItem.id; let _Index = $index) {
+            <div [id]="'application-admin-layout-item-' + _LayoutItem.id" class="border rounded-2 p-3 d-flex flex-column flex-sm-row align-items-sm-center gap-3">
+              <div class="form-check form-switch flex-grow-1">
+                <input [id]="'application-admin-layout-visible-' + _LayoutItem.id" class="form-check-input" type="checkbox" [checked]="_LayoutItem.enabled" (change)="ToggleLayoutItem(_Index)">
+                <label [for]="'application-admin-layout-visible-' + _LayoutItem.id" class="form-check-label fw-semibold">{{ _LayoutItem.label }}</label>
+                <p [id]="'application-admin-layout-status-' + _LayoutItem.id" class="small text-body-secondary mb-0">{{ _LayoutItem.enabled ? 'Visible on the public page' : 'Hidden from the public page' }}</p>
+              </div>
+              <div [id]="'application-admin-layout-order-' + _LayoutItem.id" class="btn-group" role="group" [attr.aria-label]="_LayoutItem.label + ' position'">
+                <button [id]="'application-admin-layout-move-up-' + _LayoutItem.id" type="button" class="btn btn-outline-secondary btn-sm" [disabled]="_Index === 0" (click)="MoveLayoutItem(_Index, -1)">Move up</button>
+                <button [id]="'application-admin-layout-move-down-' + _LayoutItem.id" type="button" class="btn btn-outline-secondary btn-sm" [disabled]="_Index === _Settings.admin.contentLayout.length - 1" (click)="MoveLayoutItem(_Index, 1)">Move down</button>
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+
+      <section id="application-admin-layout-preview" class="border bg-white p-4 rounded-2 mb-4">
+        <h2 id="application-admin-layout-preview-title" class="h4">Live layout preview</h2>
+        <p id="application-admin-layout-preview-description" class="text-body-secondary">This responsive canvas represents the content order that visitors see.</p>
+        <app-content-layout-preview id="application-admin-layout-preview-canvas" [Settings]="_Settings"></app-content-layout-preview>
+      </section>
+
+      <section id="application-admin-actions-panel" class="border bg-white p-4 rounded-2">
+        <h2 id="application-admin-actions-panel-title" class="h4">Draft actions</h2>
+        <p id="application-admin-actions-panel-description" class="text-body-secondary">Apply changes to the current session or save them in this browser.</p>
+        <div id="application-admin-actions" class="d-flex flex-wrap gap-2">
+          <button id="application-admin-apply" type="button" class="btn btn-outline-primary" (click)="Apply()">Apply layout</button>
+          <button id="application-admin-save" type="button" class="btn btn-primary" (click)="Save()">Save layout</button>
+          <button id="application-admin-cancel" type="button" class="btn btn-outline-secondary" (click)="Cancel()">Reset changes</button>
         </div>
       </section>
     </div>

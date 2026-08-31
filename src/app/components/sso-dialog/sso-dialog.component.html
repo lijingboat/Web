@@ -1,0 +1,19 @@
+@if (IsOpen()) {
+  <div id="application-sso-dialog-backdrop" class="modal d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="application-sso-dialog-title">
+    <div class="modal-dialog modal-dialog-centered">
+      <section id="application-sso-dialog" class="modal-content border-0 rounded-3 shadow">
+        <div class="modal-body p-4 p-md-5 text-center">
+          <p id="application-sso-dialog-logo" class="h3 fw-semibold text-primary mb-4">G</p>
+          <h2 id="application-sso-dialog-title" class="h4">Choose an account</h2>
+          <p id="application-sso-dialog-description" class="text-body-secondary">Continue to Sample House</p>
+          <button id="application-sso-dialog-account" type="button" class="btn btn-outline-secondary w-100 text-start p-3 mb-3" (click)="CloseDialog()">
+            <span class="fw-semibold d-block">Draft Google account</span>
+            <span class="small text-body-secondary">Google connection is not configured</span>
+          </button>
+          <button id="application-sso-dialog-use-another" type="button" class="btn btn-link text-decoration-none" (click)="CloseDialog()">Use another account</button>
+        </div>
+      </section>
+    </div>
+  </div>
+  <div id="application-sso-dialog-overlay" class="modal-backdrop show"></div>
+}
