@@ -1,0 +1,14 @@
+{
+  "navClass": "navbar navbar-expand-lg bg-dark navbar-dark py-3",
+  "containerClass": "container px-3 px-sm-4 px-md-5 px-lg-5",
+  "brandClass": "navbar-brand",
+  "brandText": "Sample House",
+  "linkClass": "nav-link text-light",
+  "toggleClass": "navbar-toggler",
+  "collapseClass": "collapse navbar-collapse",
+  "links": [
+    { "id": "application-navigation-about-link", "label": "About", "anchor": "#application-about-section" },
+    { "id": "application-navigation-pricing-link", "label": "Pricing", "anchor": "#application-pricing-section" },
+    { "id": "application-navigation-contact-link", "label": "Contact", "anchor": "#application-contact-section" }
+  ]
+}

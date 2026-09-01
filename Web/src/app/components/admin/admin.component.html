@@ -1,0 +1,80 @@
+@if (_DraftSettings(); as _Settings) {
+  <section id="application-admin-section" class="min-vh-100 py-5 bg-body-tertiary">
+    <div id="application-admin-container" class="container">
+      <div id="application-admin-header" class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-4">
+        <div>
+          <p id="application-admin-kicker" class="text-uppercase small fw-semibold text-primary mb-1">Administration</p>
+          <h1 id="application-admin-title" class="h2 mb-1">Account access</h1>
+          <p id="application-admin-description" class="text-body-secondary mb-0">Create and manage sample access flows before an API is connected.</p>
+        </div>
+        <a id="application-admin-return-link" class="btn btn-outline-secondary" href="/">Return to site</a>
+      </div>
+
+      <div id="application-admin-account-tools" class="row g-4">
+        <div class="col-12 col-lg-6">
+          <section id="application-admin-create-account" class="border bg-white p-4 h-100 rounded-2">
+            <h2 id="application-admin-create-account-title" class="h4">Create account</h2>
+            <p id="application-admin-create-account-description" class="text-body-secondary">Use one verified contact identifier for each account.</p>
+            <label for="application-admin-account-name" class="form-label">Email address or phone number</label>
+            <input id="application-admin-account-name" class="form-control" type="text" [(ngModel)]="_AccountName" placeholder="name@example.com or +1 555 010 0200">
+            <label for="application-admin-account-role" class="form-label mt-3">Account role</label>
+            <select id="application-admin-account-role" class="form-select" [(ngModel)]="_AccountRole">
+              <option value="Admin">Admin</option>
+              <option value="Manager">Manager</option>
+              <option value="User">User</option>
+            </select>
+            <button id="application-admin-create-account-submit" type="button" class="btn btn-primary mt-4" (click)="CreateAccount()">Create account</button>
+            @if (_AccountMessage(); as _Message) { <p id="application-admin-account-message" class="alert alert-success mt-3 mb-0">{{ _Message }}</p> }
+            @if (_AccountError(); as _Error) { <p id="application-admin-account-error" class="alert alert-danger mt-3 mb-0">{{ _Error }}</p> }
+          </section>
+        </div>
+        <div class="col-12 col-lg-6">
+          <section id="application-admin-password-recovery" class="border bg-white p-4 h-100 rounded-2">
+            <h2 id="application-admin-password-recovery-title" class="h4">Password recovery</h2>
+            <p id="application-admin-password-recovery-description" class="text-body-secondary">Recovery codes use an email address and remain valid for two hours.</p>
+            <label for="application-admin-recovery-email" class="form-label">Email address</label>
+            <input id="application-admin-recovery-email" class="form-control" type="email" [(ngModel)]="_RecoveryEmail" placeholder="name@example.com">
+            <button id="application-admin-recovery-request" type="button" class="btn btn-outline-primary mt-3" (click)="StartPasswordRecovery()">Send verification code</button>
+            @if (_RecoveryChallenge(); as _Challenge) {
+              <div id="application-admin-recovery-verification" class="mt-3">
+                <label for="application-admin-recovery-code" class="form-label">Six-digit verification code</label>
+                <div class="input-group">
+                  <input id="application-admin-recovery-code" class="form-control" inputmode="numeric" maxlength="6" [(ngModel)]="_RecoveryCode" placeholder="000000">
+                  <button id="application-admin-recovery-verify" type="button" class="btn btn-primary" (click)="VerifyPasswordRecoveryCode()">Verify</button>
+                </div>
+                <p id="application-admin-recovery-preview" class="form-text mb-0">Prototype code: {{ _Challenge.previewCode }}. Expires {{ _Challenge.expiresAt | date:'short' }}.</p>
+              </div>
+            }
+            @if (_RecoveryMessage(); as _Message) { <p id="application-admin-recovery-message" class="alert alert-success mt-3 mb-0">{{ _Message }}</p> }
+            @if (_RecoveryError(); as _Error) { <p id="application-admin-recovery-error" class="alert alert-danger mt-3 mb-0">{{ _Error }}</p> }
+          </section>
+        </div>
+        <div class="col-12">
+          <section id="application-admin-sso" class="border bg-white p-4 rounded-2">
+            <h2 id="application-admin-sso-title" class="h4">Single sign-on registration</h2>
+            <p id="application-admin-sso-description" class="text-body-secondary">Provider connections are prototypes until credentials and callback URLs are supplied.</p>
+            <div id="application-admin-sso-actions" class="d-flex flex-wrap gap-2">
+              <button id="application-admin-sso-google" type="button" class="btn btn-outline-dark" (click)="RegisterWithProvider('Google')">Register with Google</button>
+              <button id="application-admin-sso-microsoft" type="button" class="btn btn-outline-dark" (click)="RegisterWithProvider('Microsoft')">Register with Microsoft</button>
+              <button id="application-admin-sso-facebook" type="button" class="btn btn-outline-dark" (click)="RegisterWithProvider('Facebook')">Register with Facebook</button>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <section id="application-admin-site-preview" class="border bg-white p-4 rounded-2 mt-4">
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
+          <div>
+            <h2 id="application-admin-site-preview-title" class="h4 mb-1">Site preview controls</h2>
+            <p id="application-admin-site-preview-description" class="text-body-secondary mb-0">Existing settings remain available for the public sample page.</p>
+          </div>
+          <div id="application-admin-actions" class="btn-group" role="group" aria-label="Site preview actions">
+            <button id="application-admin-apply" type="button" class="btn btn-outline-primary" (click)="Apply()">Apply</button>
+            <button id="application-admin-save" type="button" class="btn btn-primary" (click)="Save()">Save</button>
+            <button id="application-admin-cancel" type="button" class="btn btn-outline-secondary" (click)="Cancel()">Cancel</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+}
